@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <title>Admin Page</title>
+        <title>Teacher Page</title>
     </head>
     <body>
         <hr/>
@@ -20,9 +20,7 @@
             Role(s):<security:authentication property="principal.authorities"/>
         </p>
         <hr/>
-        <h1>Welcome Admin. You can do anything!!!</h1>
-        
-        <a href="${pageContext.request.contextPath}/admin/register">Register User</a>
+        <h1>Welcome Teacher. You can do teaching!!!</h1>
 
     </body>
 </html>

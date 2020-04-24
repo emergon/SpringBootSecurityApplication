@@ -12,4 +12,9 @@ public class HomeController {
     public String welcomePage(){
         return "welcome";
     } 
+    
+    @GetMapping("/access-denied")
+    public String showAccessDenied(){
+        return "access-denied";
+    }
 }

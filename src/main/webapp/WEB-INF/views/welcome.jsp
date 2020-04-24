@@ -10,7 +10,7 @@
     </head>
     <body>
         <h3>Welcome to Spring Security</h3>
-        
+
         <hr/>
         <p>
             User: <security:authentication property="principal.username"/>
@@ -18,8 +18,14 @@
             Role(s):<security:authentication property="principal.authorities"/>
         </p>
         <hr/>
-        <a href="${pageContext.request.contextPath}/admin/home">Go to Admin Home page</a>
-        
+        <security:authorize access="hasRole('ADMIN')">
+            <a href="${pageContext.request.contextPath}/admin/home">Go to Admin Home page</a>
+        </security:authorize>
+        <br/>
+        <security:authorize access="hasRole('TEACHER')">
+            <a href="${pageContext.request.contextPath}/teacher/home">Go to Teacher Home page</a>
+        </security:authorize>
+            
         <form:form action="${pageContext.request.contextPath}/logout" method="POST">
             <input type="submit" value="Logout"/>
         </form:form>
