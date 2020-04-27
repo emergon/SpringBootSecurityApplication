@@ -1,8 +1,10 @@
 package com.emergon;
 
+import com.emergon.service.MyUserService;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +18,8 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+    @Autowired
+    private MyUserService userService;
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,16 +48,23 @@ public class MyWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 //                .withUser("admin").password("{noop}1234").roles("ADMIN", "USER")
 //                .and()
 //                .withUser("teacher").password("{noop}1234").roles("TEACHER");
-        auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder());
-        
+        //auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder());
+        auth.authenticationProvider(authenticationProvider());
     }
     
-    @Bean//This manager is used by Spring Security to automatically store Users in  Default DB.
-    public JdbcUserDetailsManager jdbcUserDetailsManager(){
-        JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
-        manager.setDataSource(dataSource);
-        return manager;
+    public DaoAuthenticationProvider authenticationProvider(){
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
     }
+    
+//    @Bean//This manager is used by Spring Security to automatically store Users in  Default DB.
+//    public JdbcUserDetailsManager jdbcUserDetailsManager(){
+//        JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
+//        manager.setDataSource(dataSource);
+//        return manager;
+//    }
     
     @Bean
     public PasswordEncoder passwordEncoder(){

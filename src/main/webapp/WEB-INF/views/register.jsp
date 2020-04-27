@@ -15,20 +15,31 @@
     <body>
         <div align="center">
             <h3>Registration Form</h3>
+            <c:if test="${userExistsError != null}">
+                ${userExistsError}
+            </c:if>
             <form:form action="${pageContext.request.contextPath}/admin/register" 
                        method="post" modelAttribute="myuser">
+                
                 <p>
-                    <label>Enter username</label>  
-                    <form:input path="username"/>
+                    <form:input path="username" placeholder="username"/>
                 </p>
                 <p>
-                    <label>Enter password</label> 
-                    <form:input path="password"/>
+                    <form:input path="password" placeholder="password"/>
+                </p>
+                <p>
+                    <form:input path="fname" placeholder="first name"/>
+                </p>
+                <p>
+                    <form:input path="lname" placeholder="last name"/>
+                </p>
+                <p>
+                    <form:input path="email" placeholder="email"/>
                 </p>
                 <p>
                     <label>Choose roles</label>
                     <form:select multiple="true" path="roles">
-                        <form:options items="${roloi}"/>
+                        <form:options items="${roloi}" itemLabel="rname" itemValue="rid"/>
                     </form:select>
                 </p>
                 <input type="submit" value="Register">
